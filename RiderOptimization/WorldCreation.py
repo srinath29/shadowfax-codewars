@@ -17,6 +17,25 @@ class RiderOptimization:
             time_dict[key] = value
         return time_dict
 
+    def getTimeDf(self, timeDict):
+        timeDf = pd.DataFrame()
+        indLi = []
+        for key in timeDict:
+            indLi.append(key)
+            subLi = []
+            for subKey in timeDict:
+                if key == subKey:
+                    val = 0
+                else:
+                    newSource = (Helper.decode_lat_lon_string(key).group("lat2"), Helper.decode_lat_lon_string(key).group("lon2"))
+                    newDestination = (Helper.decode_lat_lon_string(subKey).group("lat1"), Helper.decode_lat_lon_string(subKey).group("lon1"))
+                    time = Helper.getTimeGmaps(newSource, newDestination)
+                    val  = timeDict[key] + timeDict[subKey] + time
+                subLi.append(val)
+            timeDf[key] = pd.Series(subLi)
+        timeDf.index = indLi
+        return timeDf
+
 
 if __name__ == '__main__':
     riderOptimization = RiderOptimization()
