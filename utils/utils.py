@@ -3,6 +3,7 @@ import datetime
 import json
 import pandas as pd
 from geopy.distance import vincenty, great_circle
+import re
 
 
 class Helper :
@@ -97,3 +98,24 @@ class Helper :
         '''
         k = self.getDistanceMatrix(origin, destination)
         return self.timeDataFrame(k)[0][0]
+
+    def prepare_lat_lon_string(self, geohash1, geohash2):
+        geohash = str(geohash1[0])+ ':' +str(geohash1[1])+ '~' + str(geohash2[0]) + ':' + str(geohash2[1])
+        return geohash
+
+    def decode_lat_lon_string(self, str_val):
+        _geocoords = re.compile(r'(?P<lat1>.+?[0-9]):(?P<lon1>.+?[0-9])~(?P<lat2>.+?[0-9]):(?P<lon2>.+?.*)',
+                              flags=re.UNICODE)
+        val = _geocoords.search(str_val)
+
+        return val
+
+
+if __name__ == '__main__':
+
+    print(Helper().prepare_lat_lon_string(('12.345', '77.888'),('11.876','67.77')))
+    obj = Helper().decode_lat_lon_string('12.345:77.888~11.876:67.77')
+    print(obj.group('lon2'))
+    print(obj.group('lon1'))
+    print(obj.group('lat1'))
+    print(obj.group('lat2'))
