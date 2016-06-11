@@ -9,6 +9,7 @@ from utils.utils import Helper
 
 
 class RiderOptimization:
+
     def get_time_dict(self, source, client):
         time_dict = {}
         for s in range(len(source)):
