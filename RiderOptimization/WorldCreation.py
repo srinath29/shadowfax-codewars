@@ -19,6 +19,11 @@ class RiderOptimization:
         return time_dict
 
     def getTimeDf(self, timeDict):
+        '''
+        Cretaes a data frame matrix which aids in finding length of a path.
+        :param timeDict:
+        :return:
+        '''
         timeDf = pd.DataFrame()
         indLi = []
         for key in timeDict:
