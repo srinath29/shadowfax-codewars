@@ -15,6 +15,7 @@ now = datetime.datetime.now()
 
 
 h1 = Helper()
-directions_result = h1.getDistanceDataFrame((12.985805, 77.737007),(12.992220,77.715910))
+directions_result = h1.getGeopyVincenty((12.985805, 77.737007),(12.970853, 	77.749980))
 
-print(directions_result[0][0])
+#print(directions_result[0][0])
+print(directions_result)

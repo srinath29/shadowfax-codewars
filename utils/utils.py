@@ -2,7 +2,7 @@ import googlemaps
 import datetime
 import json
 import pandas as pd
-
+from geopy.distance import vincenty, great_circle
 
 
 class Helper :
@@ -26,3 +26,14 @@ class Helper :
     def getDistanceDataFrame(self, origins, destinations):
         k = self.getDistanceMatrix(origins, destinations)
         return self.distance_dataFrame(k)
+
+    def getDistanceGmaps(self, origin, destination):
+        k = self.getDistanceMatrix(origin, destination)
+        return self.distance_dataFrame(k)[0][0]
+
+
+    def getGeopyVincenty(self, origin, destination):
+        return vincenty(origin, destination).kilometers
+
+    def getGeopyGreaterCircle(self, origin, destination):
+        return great_circle(origin, destination).kilometers
