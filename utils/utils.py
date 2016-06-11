@@ -112,10 +112,12 @@ class Helper :
 
 
 if __name__ == '__main__':
-
+    """
     print(Helper().prepare_lat_lon_string(('12.345', '77.888'),('11.876','67.77')))
     obj = Helper().decode_lat_lon_string('12.345:77.888~11.876:67.77')
     print(obj.group('lon2'))
     print(obj.group('lon1'))
     print(obj.group('lat1'))
     print(obj.group('lat2'))
+    """
+    print(Helper().prepare_lat_lon_string((12.925975583315498, 77.6753354072571),(12.931280000000001, 77.68624)))
