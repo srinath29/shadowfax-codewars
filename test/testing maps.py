@@ -1,7 +1,7 @@
 import googlemaps
 import datetime
 import json
-
+from utils.utils import Helper
 gmaps = googlemaps.Client(key = "AIzaSyCTVcmF2m7PGO1UgEEv9Mfn-Vo0XbA5XYY")
 
 now = datetime.datetime.now()
@@ -13,8 +13,8 @@ now = datetime.datetime.now()
 #                                      mode="driving",
 #                                      departure_time=now)
 
-directions_result = gmaps.distance_matrix([(12.985805, 77.737007),(12.985805,77.737007)],[(12.992220,77.715910),(12.970853,77.715910)],
-                                     mode="driving",
-                                     departure_time=now)
 
-print(directions_result)
+h1 = Helper()
+directions_result = h1.getDistanceDataFrame((12.985805, 77.737007),(12.992220,77.715910))
+
+print(directions_result[0][0])
