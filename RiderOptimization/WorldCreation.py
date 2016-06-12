@@ -34,7 +34,7 @@ class RiderOptimization:
         for s in sols:
             print(s.distance)
 
-        #processTrail(self.beautifyLatLon(sol.tour))
+        processTrail(self.beautifyLatLon(sol.tour))
 
 
     def beautifyLatLon(self, stringLatLonList):
