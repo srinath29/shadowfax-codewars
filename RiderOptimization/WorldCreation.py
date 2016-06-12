@@ -6,6 +6,7 @@ import pants
 import pandas as pd
 from utils.utils import Helper
 from time import time
+from utils.js import processTrail
 
 
 class RiderOptimization:
@@ -32,6 +33,8 @@ class RiderOptimization:
         print("***********\n**********\n########")
         for s in sols:
             print(s.distance)
+
+        #processTrail(self.beautifyLatLon(sol.tour))
 
 
     def beautifyLatLon(self, stringLatLonList):

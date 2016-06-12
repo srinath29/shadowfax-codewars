@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Simple markers</title>
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+
+      function initMap() {
+
+
+        var marker1= new google.maps.Marker({
+          position:{"lon": "77.6909", "lat": "12.9353"},title: 2     ,map: map});
+var marker12= new google.maps.Marker({
+          position:{"lon": "77.6753354072571", "lat": "12.925975583315498"},title: 135     ,map: map});
+var marker123= new google.maps.Marker({
+          position:{"lon": "77.68624", "lat": "12.931280000000001"},title: 4     ,map: map});
+var marker1234= new google.maps.Marker({
+          position:{"lon": "77.6622", "lat": "12.9337"},title: 6     ,map: map});
+
+        });
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTVcmF2m7PGO1UgEEv9Mfn-Vo0XbA5XYY&callback=initMap">
+    </script>
+  </body>
+</html>
+
+
+
