@@ -1,9 +1,8 @@
 '''
-World creation for rider optimization.
+World creation and rider path allocation optimization technique.
 '''
 
 import pants
-import math
 import pandas as pd
 from utils.utils import Helper
 from time import time
@@ -17,6 +16,8 @@ class RiderOptimization:
         self.timeDf = self.getTimeDf(self.get_time_dict(source, client))
         end = time()
         print("Network IO's time is {}".format(end - start))
+
+    def findOptimalSolutions(self):
         nodes = list(self.timeDf.columns)
         world = pants.World(nodes, self.calculateLength)
         solver = pants.Solver()
@@ -36,14 +37,13 @@ class RiderOptimization:
     def beautifyLatLon(self, stringLatLonList):
         trail = []
         for stringLatLon in stringLatLonList:
-            k = self.helperObj.decode_lat_lon_string(stringLatLon)
-            source = (k.group("lat1"), k.group("lon1"))
-            destination = (k.group("lat2"), k.group("lon2"))
+            lat_lon_group = self.helperObj.decode_lat_lon_string(stringLatLon)
+            source = (lat_lon_group.group("lat1"), lat_lon_group.group("lon1"))
+            destination = (lat_lon_group.group("lat2"), lat_lon_group.group("lon2"))
             trail.append(source)
             trail.append(destination)
 
         return trail
-
 
     def get_time_dict(self, source, client):
         time_dict = {}
@@ -64,15 +64,15 @@ class RiderOptimization:
         for key in timeDict:
             indLi.append(key)
             subLi = []
-            for subKey in timeDict:
-                if key == subKey:
-                    val = 0
+            for geohash, time_val in timeDict.items():
+                if key == geohash:
+                    total_time = 0
                 else:
                     newSource = (self.helperObj.decode_lat_lon_string(key).group("lat2"), self.helperObj.decode_lat_lon_string(key).group("lon2"))
-                    newDestination = (self.helperObj.decode_lat_lon_string(subKey).group("lat1"), self.helperObj.decode_lat_lon_string(subKey).group("lon1"))
+                    newDestination = (self.helperObj.decode_lat_lon_string(geohash).group("lat1"), self.helperObj.decode_lat_lon_string(geohash).group("lon1"))
                     time = self.helperObj.getTimeGmaps(newSource, newDestination)
-                    val  = timeDict[key] + timeDict[subKey] + time
-                subLi.append(val)
+                    total_time  = timeDict[key] + time_val + time
+                subLi.append(total_time)
             timeDf[key] = pd.Series(subLi)
         timeDf.index = indLi
         return timeDf
@@ -86,34 +86,11 @@ if __name__ == '__main__':
     start = time()
     destination = [(12.931280000000001, 77.686239999999998),
                      (12.9337, 77.662199999999999),
-                     (12.9337, 77.662199999999999),
-                     (12.9337, 77.662199999999999),
-                     (12.9337, 77.662199999999999),
-                     (12.9353, 77.690899999999999),
-                     (12.93561, 77.702280000000002),
-                     (12.9337, 77.662199999999999),
-                     (12.91029, 77.645020000000002),
-                     (12.93561, 77.702280000000002),
-                     (12.91042, 77.685140000000004),
-                     (12.9353, 77.690899999999999),
-                     (12.9337, 77.662199999999999),
-                     (12.9337, 77.662199999999999),
-                     (12.9337, 77.662199999999999)]
+                     (12.9353, 77.690899999999999)]
     source = [(12.925975583315498, 77.675335407257094),
-             (12.925975583315498, 77.675335407257094),
-             (12.925975583315498, 77.675335407257094),
-             (12.925975583315498, 77.675335407257094),
-             (12.925975583315498, 77.675335407257094),
-             (12.925975583315498, 77.675335407257094),
-             (12.925975583315498, 77.675335407257094),
-             (12.925975583315498, 77.675335407257094),
-             (12.92608819, 77.671467489999998),
-             (12.92608819, 77.671467489999998),
-             (12.92608819, 77.671467489999998),
-             (12.92608819, 77.671467489999998),
-             (12.925975583315498, 77.675335407257094),
              (12.925975583315498, 77.675335407257094),
              (12.925975583315498, 77.675335407257094)]
     riderOptimization = RiderOptimization(source, destination)
+    riderOptimization.findOptimalSolutions()
     end = time()
     print("Time taken for total is {}".format(end-start))
