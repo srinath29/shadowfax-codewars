@@ -6,14 +6,17 @@ import pants
 import math
 import pandas as pd
 from utils.utils import Helper
+from time import time
 
 
 class RiderOptimization:
 
     def __init__(self, source, client):
         self.helperObj = Helper()
-
+        start = time()
         self.timeDf = self.getTimeDf(self.get_time_dict(source, client))
+        end = time()
+        print("Network IO's time is {}".format(end - start))
         nodes = list(self.timeDf.columns)
         world = pants.World(nodes, self.calculateLength)
         solver = pants.Solver()
@@ -80,6 +83,7 @@ class RiderOptimization:
 
 
 if __name__ == '__main__':
+    start = time()
     destination = [(12.931280000000001, 77.686239999999998),
                      (12.9337, 77.662199999999999),
                      (12.9337, 77.662199999999999),
@@ -111,3 +115,5 @@ if __name__ == '__main__':
              (12.925975583315498, 77.675335407257094),
              (12.925975583315498, 77.675335407257094)]
     riderOptimization = RiderOptimization(source, destination)
+    end = time()
+    print("Time taken for total is {}".format(end-start))
