@@ -1,3 +1,4 @@
 # shadowfax-codewars
 For the hackathon
-##Wait
+
+This code contains an approach to the problem statement on optimizing the appropriate route to deliver to multiple customers using Ant-Colony optimization. 
